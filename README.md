@@ -2,7 +2,7 @@
 
 ## Author
 
-
+Michael VanderMyde
 
 ## Program Description
 
