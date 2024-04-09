@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>aspnet-cis237_inclass_6-53CDFA01-4531-467F-A94B-420E50E95E2E</UserSecretsId>
     <RootNamespace>cis237_inclass_6</RootNamespace>
   </PropertyGroup>
