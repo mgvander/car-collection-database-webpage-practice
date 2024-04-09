@@ -60,10 +60,16 @@ namespace cis237_inclass_6
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            {   
+                // Good practice to put the most specific routes, first,
+                // and the routes with the most place holder values, last.
+                endpoints.MapControllerRoute(name: "foobar",
+                                             pattern: "foobar",
+                                             defaults: new { controller = "Foobar", action = "FoobarAction" });
+
+                endpoints.MapControllerRoute(name: "default",
+                                             pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
             });
         }
