@@ -2,7 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class = "jumbotron">
+    <h1>@ViewData["MyJumbotron"]</h1>
+</div>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@{
+    int myNumber = 5;
+}
+
+@for (int x = 0; x < 8; ++x)
+{
+    <span>this is number: @x</span><br />
+}
+
+<span>My number is: @myNumber</span>
+
+@*This is a comment in the Razor Templates and will not be sent to the web page*@
+<!--This is an HTML comment. It will be returned with the page html where the user can see-->

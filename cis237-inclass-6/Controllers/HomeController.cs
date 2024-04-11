@@ -20,6 +20,8 @@ namespace cis237_inclass_6.Controllers
 
         public IActionResult Index()
         {
+            ViewData["MyJumbotron"] = "My message from the controller";
+            
             return View();
         }
 
