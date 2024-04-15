@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using cis237_inclass_6.Models;
 
 namespace cis237_inclass_6.Controllers
 {
+    [Authorize]
     public class CarsController : Controller
     {
         private readonly CarContext _context;

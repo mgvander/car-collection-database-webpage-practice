@@ -27,9 +27,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Foobar" asp-action="FoobarAction">Foobar</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">My Cars</a>
-                        </li>
+                        @* Check that the user is logged in before allowing them to view the link *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">My Cars</a>
+                            </li>
+                        }                        
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
