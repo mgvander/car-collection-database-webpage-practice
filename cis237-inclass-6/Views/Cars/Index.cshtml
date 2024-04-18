@@ -5,6 +5,36 @@
 }
 
 <h1>Index</h1>
+<div class="form-group">
+    <fieldset>
+        <legend>Search Filter</legend>
+        @*Open up a form that will go to the Filter method on the 
+          BeveragesController with a POST request*@
+
+        @using (Html.BeginForm(
+            "Filter",    // Action method to run
+            "Cars",    // Controller that method is on
+            FormMethod.Post    // Therequest type
+        ))
+        {
+            @*Render out the AntiForgery Token for the form*@
+            @Html.AntiForgeryToken()
+
+            <label for="make">Make</label>
+            @Html.TextBox("make", ViewData["filterMake"])
+            <label for="min">Min</label>
+            @Html.TextBox("min", ViewData["filterMin"])
+            <label for="max">Max</label>
+            @Html.TextBox("max", ViewData["filterMax"])
+
+            <input type="submit"
+                value="Filter"
+                class="btn btn-info pull-right" />
+        }
+    </fieldset>
+</div>
+<br />
+<br />
 
 <p>
     <a asp-action="Create">Create New</a>

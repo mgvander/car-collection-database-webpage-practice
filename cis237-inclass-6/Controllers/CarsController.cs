@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,74 @@ namespace cis237_inclass_6.Controllers
         // GET: Cars
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Cars.ToListAsync());
+            // Setup a variable to hold the cars data.
+            DbSet<Car> CarsToFilter = _context.Cars;
+
+            // Setup some strings to hold the data that might be
+            // in the session. If there is nothing in the seesion
+            // we can still use these variables as a default.
+            string filterMake = "";
+            string filterMin = "";
+            string filterMax = "";
+
+            // Define a min and max for the cylinders;
+            int min = 0;
+            int max = 16;
+
+            // Check to see if there is a value in the session,
+            // and if there is, assign it to the variable that
+            // we setup to hold the value
+            if (!String.IsNullOrWhiteSpace(HttpContext.Session.GetString("session_make")))
+            {
+                filterMake = HttpContext.Session.GetString("session_make");
+            }
+
+            // Check to see if there is a value in the session,
+            // and if there is, assign it to the variable that
+            // we setup to hold the value
+            if (!String.IsNullOrWhiteSpace(HttpContext.Session.GetString("session_min")))
+            {
+                filterMin = HttpContext.Session.GetString("session_min");
+
+                min = Int32.Parse(filterMin);
+
+            }
+
+            // Check to see if there is a value in the session,
+            // and if there is, assign it to the variable that
+            // we setup to hold the value
+            if (!String.IsNullOrWhiteSpace(HttpContext.Session.GetString("session_max")))
+            {
+                filterMax = HttpContext.Session.GetString("session_max");
+
+                max = Int32.Parse(filterMax);
+
+            }
+
+            // Do the filter on the CarsToFilter Dataset.
+            // Use the Where() method that we used before when doing
+            // the last inclass, only this time send in more
+            // lambda expressions to narrow it down further.
+            // Since we setup the default values for each of the
+            // filter parameters, min, max, and filterMake, we
+            // can count on this always running with no errors.
+            IList<Car> finalFiltered = await CarsToFilter.Where(car => car.Cylinders >= min &&
+                                                                       car.Cylinders <= max &&
+                                                                       car.Make.Contains(filterMake)
+                                                               ).ToListAsync();
+
+            // Place the string representation of the values
+            // that are in the sesssion into the viewdata so
+            // that they can be retrieved and displayed on the view.
+            ViewData["filterMake"] = filterMake;
+            ViewData["filterMin"] = filterMin;
+            ViewData["filterMax"] = filterMax;
+
+            // Return the view with the filtered selection of cars.
+            return View(finalFiltered);
+
+            // This was the original return statement
+            //return View(await _context.Cars.ToListAsync());
         }
 
         // GET: Cars/Details/5
@@ -151,6 +219,28 @@ namespace cis237_inclass_6.Controllers
             }
             
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Filter()
+        {
+            // Get the form data that we sent out of the request object.
+            // The string that is used as a key to get the data matches
+            // the name propperty of the form control
+            string make = HttpContext.Request.Form["make"];
+            string min = HttpContext.Request.Form["min"];
+            string max = HttpContext.Request.Form["max"];
+
+            // Now that we have the data pulled out from the request object,
+            // let's put it into the session so that other methods can have access to it.
+            HttpContext.Session.SetString("session_make", make);
+            HttpContext.Session.SetString("session_min", min);
+            HttpContext.Session.SetString("session_max", max);
+
+            //return Content("foobar");
+            // Redirect to the index page
             return RedirectToAction(nameof(Index));
         }
 
