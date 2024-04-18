@@ -244,6 +244,11 @@ namespace cis237_inclass_6.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult JsonApi()
+        {
+            return Json(_context.Cars.ToList());
+        }
+
         private bool CarExists(string id)
         {
           return _context.Cars.Any(e => e.Id == id);
