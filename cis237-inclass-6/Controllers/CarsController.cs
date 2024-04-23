@@ -86,8 +86,7 @@ namespace cis237_inclass_6.Controllers
             ViewData["filterMake"] = filterMake;
             ViewData["filterMin"] = filterMin;
             ViewData["filterMax"] = filterMax;
-
-            // Return the view with the filtered selection of cars.
+            
             return View(finalFiltered);
 
             // This was the original return statement
